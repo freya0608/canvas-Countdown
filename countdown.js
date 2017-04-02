@@ -164,6 +164,7 @@ function render(cxt) {
 
     cxt.clearRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
 
+    //计算小时，分钟，秒
     var hours = parseInt(curShowTimeSeconds/3600);
 
    // console.log(parseInt(hours/10));
