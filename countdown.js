@@ -8,7 +8,10 @@ var RADIUS = 8;
 var MARGIN_TOP = 60;
 var MARGIN_LEFT = 30;
 
-const endTime = new Date(2017,3,2,18,47,52);//设置时间需要不超过100小时
+//const endTime = new Date(2017,3,2,18,47,52);//设置时间需要不超过99小时
+
+var endTime = new Date();
+endTime.setTime(endTime.getTime()+3600*1000);//设置倒计时为一个小时
 
 var curShowTimeSeconds = 0;
 
@@ -17,6 +20,14 @@ const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FF
 
 
 window.onload = function () {
+    // WINDOW_WIDTH = document.body.clientWidth;
+    // WINDOW_HEIGHT = document.body.clientHeight;
+
+    // MARGIN_LEFT = Math.round(WINDOW_WIDTH/10);
+    // RADIUS = Math.round(WINDOW_WIDTH*4/5/108)-1;
+    // MARGIN_TOP = Math.round(WINDOW_HEIGHT/5);
+
+
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
 
@@ -38,11 +49,18 @@ window.onload = function () {
 
 function getCurrentShowTimeSeconds() {
     var curTime = new Date();
+
+    //倒计时
     var ret = endTime.getTime() - curTime.getTime();
     //console.log(ret);
     ret = Math.round(ret/1000);
 
-    return ret>=0?ret:0;
+     //从当前时间开始计时，去掉前面声明的endtime
+    // var ret = curTime.getHours()*3600+curTime.getMinutes()*60+curTime.getSeconds();
+    // return ret;
+
+
+     return ret>=0?ret:0;
 }
 
 
@@ -91,6 +109,7 @@ function update() {
 
 
     updateBalls();
+    console.log(balls.length)
 }
 
 function updateBalls() {
@@ -103,6 +122,19 @@ function updateBalls() {
             balls[i].y = WINDOW_HEIGHT-RADIUS;
             balls[i].vy = -balls[i].vy*0.75;
         }
+    }
+
+    var cnt = 0;
+    for(var i=0;i<balls.length;i++){
+        if(balls[i].x+RADIUS>0&&balls[i].x-RADIUS<WINDOW_WIDTH){
+            balls[cnt++] = balls[i];
+        }
+    }
+    // while (balls.length>cnt){
+    //     balls.pop();
+    // }
+    while (balls.length>Math.min(300,cnt)){
+        balls.pop();
     }
 }
 
@@ -134,12 +166,12 @@ function render(cxt) {
 
     var hours = parseInt(curShowTimeSeconds/3600);
 
-    console.log(parseInt(hours/10));
-    console.log(parseInt(hours));
+   // console.log(parseInt(hours/10));
+   // console.log(parseInt(hours));
     var minutes = parseInt((curShowTimeSeconds-hours*3600)/60);
-    console.log(minutes);
+   // console.log(minutes);
     var seconds = curShowTimeSeconds%60;
-   console.log(seconds);
+   //console.log(seconds);
 
     renderDigit(MARGIN_LEFT,MARGIN_TOP,parseInt(hours/10),cxt);
     renderDigit(MARGIN_LEFT+15*(RADIUS+1),MARGIN_TOP,parseInt(hours%10),cxt);
