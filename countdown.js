@@ -193,7 +193,7 @@ function render(cxt) {
     }
 
 }
-
+//绘制每个数字
 function renderDigit(x,y,num,cxt) {
     cxt.fillStyle = "rgb(0,102,153)";
     //console.log(digit);
