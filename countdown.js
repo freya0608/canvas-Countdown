@@ -109,7 +109,7 @@ function update() {
 
 
     updateBalls();
-    console.log(balls.length)
+    //console.log(balls.length)
 }
 
 function updateBalls() {
